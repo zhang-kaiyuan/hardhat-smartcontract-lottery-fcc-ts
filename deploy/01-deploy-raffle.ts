@@ -2,7 +2,6 @@ import { DeployFunction } from "hardhat-deploy/types"
 import { HardhatRuntimeEnvironment } from "hardhat/types"
 import { networkConfig, developmentChains } from "../helper-hardhat-config"
 import { VRFCoordinatorV2_5Mock } from "../typechain-types"
-import { EventLog } from "ethers"
 import { ethers } from "hardhat"
 import verify from "../utils/verify"
 
@@ -23,9 +22,6 @@ const deployRaffle: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
         const subscriptionIdResponse = await vrfCoordinatorV2Mock.createSubscription()
         const subscriptionIdReceipt = await subscriptionIdResponse.wait()
         subscriptionId = subscriptionIdReceipt!.logs[0].topics[1]
-        // fund subscription, usually you need link token on a real network
-        // vrf充值操作
-        vrfCoordinatorV2Mock.fundSubscription(subscriptionId, VRF_SUB_FUND_AMOUNT)
     } else {
         // 测试环境
         vrfCoordinatorV25Address = networkConfig[network.name].vrfCoordinatorV2

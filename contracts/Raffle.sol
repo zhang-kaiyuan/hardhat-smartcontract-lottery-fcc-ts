@@ -69,7 +69,7 @@ contract Raffle is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
         s_lastTimeStamp = block.timestamp;
     }
 
-	// 参与抽奖
+    // 参与抽奖
     function enterRaffle() public payable {
         if (msg.value < i_entranceFee) {
             revert Raffle__NotEnougthETHEntered();
@@ -81,7 +81,7 @@ contract Raffle is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
         emit RaffleEnter(msg.sender);
     }
 
-	// vrf回调函数 执行抽奖操作
+    // vrf回调函数 执行抽奖操作
     function fulfillRandomWords(
         uint256 /*requestId*/,
         uint256[] calldata randomWords
@@ -115,7 +115,7 @@ contract Raffle is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
         upkeepNeeded = isOpen && timePassed && hasPlayers && hasBalance;
     }
 
-	// 关闭通道 请求随机数
+    // 关闭通道 请求随机数
     // external 比public便宜
     function performUpkeep(bytes calldata /* performData */) external override {
         (bool upkeepNeeded, ) = checkUpkeep("");
@@ -139,7 +139,7 @@ contract Raffle is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
                 numWords: NUM_WORDS,
                 extraArgs: VRFV2PlusClient._argsToBytes(
                     // Set nativePayment to true to pay for VRF requests with Sepolia ETH instead of LINK
-					// 这边决定是否用本地货币 true就用eth结算
+                    // 这边决定是否用本地货币 true就用eth结算
                     VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
                 )
             })
